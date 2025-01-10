@@ -92,19 +92,6 @@ La API estará disponible en `http://localhost:6500`.
 - **POST /votos**: Registrar un nuevo voto en el sistema.
 - **GET /votos/estadisticas**: Obtener estadísticas de votación, como el total de votos emitidos y los votos por candidato.   
 
-
-En el siguiente documento se deja evidencia de que las peticiones funcionan correctamente:   
- [Evidencias de Uso de la API](https://docs.google.com/document/d/1lY70pm4WNigP_awqo9XOJ1mEO8dVv9gj/edit?usp=sharing&ouid=105827116053933080589&rtpof=true&sd=true)
-
-
-## Swagger
-
-La documentación interactiva de la API está disponible en swagger en la siguiente ruta:
-
-`http://localhost:6500/api-docs/`
-
-Puedes utilizar esta ruta para explorar y probar los endpoints disponibles de manera sencilla.
-
 La API cuanta con filtrado y paginación en las listas de votantes y candidatos, asi que para hacer la prueba en Postman puedes utilizar la siguiente ruta:
 
 #### Filtrar votantes que han votado de los que no:
@@ -120,6 +107,18 @@ Utilizando el 1 para los que sí han votado y 0 para los que no han votado.
 #### Filtrar candidatos por partido politico:
 
 `http://localhost:6500/candidatos?page=1&limit=10&search=Nacional`
+
+En el siguiente documento se deja evidencia de que las peticiones funcionan correctamente:   
+ [Evidencias de Uso de la API](https://docs.google.com/document/d/1lY70pm4WNigP_awqo9XOJ1mEO8dVv9gj/edit?usp=sharing&ouid=105827116053933080589&rtpof=true&sd=true)
+
+
+## Swagger
+
+La documentación interactiva de la API está disponible en swagger en la siguiente ruta:
+
+`http://localhost:6500/api-docs/`
+
+Puedes utilizar esta ruta para explorar y probar los endpoints disponibles de manera sencilla.
 
 ## Dependencias utilizadas
 
