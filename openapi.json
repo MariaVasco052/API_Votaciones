@@ -1,0 +1,650 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API Sistema de Votaciones",
+    "version": "1.0.0",
+    "description": "Esta API proporciona funcionalidades para gestionar un sistema de votación.\nPermite registrar votantes y candidatos, emitir votos y obtener estadísticas detalladas de los votos.\n\nAdemás, incluye la capacidad de eliminar votantes y candidatos.\n"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:6500",
+      "description": "Servidor local de la API de votación"
+    }
+  ],
+  "paths": {
+    "/votantes": {
+      "get": {
+        "tags": [
+          "votantes"
+        ],
+        "summary": "Consultar todos los votantes",
+        "description": "Devuelve una lista de todos los votantes registrados en el sistema.",
+        "parameters": [
+          {
+            "name": "full_name",
+            "in": "query",
+            "description": "Filtrar por nombre completo del votante",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "description": "Filtrar por correo electrónico del votante",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "has_voted",
+            "in": "query",
+            "description": "Filtrar por estado de votación del votante",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de votantes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "ID único del votante"
+                      },
+                      "full_name": {
+                        "type": "string",
+                        "description": "Nombre completo del votante"
+                      },
+                      "email": {
+                        "type": "string",
+                        "description": "Correo electrónico del votante"
+                      },
+                      "has_voted": {
+                        "type": "boolean",
+                        "description": "Estado que indica si el votante ya ha emitido su voto"
+                      }
+                    }
+                  }
+                },
+                "example": [
+                  {
+                    "id": 1,
+                    "full_name": "Luisa Gomez",
+                    "email": "luisagomez@outlook.com",
+                    "has_voted": false
+                  },
+                  {
+                    "id": 2,
+                    "full_name": "Carlos Perez",
+                    "email": "carlosperez@mail.com",
+                    "has_voted": true
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "votantes"
+        ],
+        "summary": "Registrar un nuevo votante",
+        "description": "Permite registrar un nuevo votante en el sistema.",
+        "requestBody": {
+          "description": "Datos del nuevo votante.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "full_name": {
+                    "type": "string",
+                    "description": "Nombre completo del votante"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "Correo electrónico del votante"
+                  },
+                  "has_voted": {
+                    "type": "boolean",
+                    "description": "Estado del votante, si ya ha votado o no"
+                  }
+                },
+                "required": [
+                  "full_name",
+                  "email",
+                  "has_voted"
+                ]
+              },
+              "example": {
+                "full_name": "Luisa Gomez",
+                "email": "luisagomez@outlook.com",
+                "has_voted": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Votante registrado exitosamente",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Votante registrado exitosamente"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error en los datos proporcionados",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error al registrar el votante"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/votantes/{id}": {
+      "get": {
+        "tags": [
+          "votantes"
+        ],
+        "summary": "Consultar un votante",
+        "description": "Recupera la información de un votante específico utilizando su ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID del votante a consultar",
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detalles del votante",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "full_name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "has_voted": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "example": {
+                  "id": 1,
+                  "full_name": "Luisa Gomez",
+                  "email": "luisagomez@outlook.com",
+                  "has_voted": false
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Votante no encontrado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Votante no encontrado"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "votantes"
+        ],
+        "summary": "Eliminar un votante",
+        "description": "Elimina un votante del sistema utilizando su ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID del votante a eliminar",
+            "schema": {
+              "type": "integer",
+              "example": 8
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Votante eliminado exitosamente",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Votante eliminado exitosamente"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Votante no encontrado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Votante no encontrado"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno al eliminar el votante",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error al intentar eliminar el votante"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/candidatos": {
+      "get": {
+        "tags": [
+          "candidatos"
+        ],
+        "summary": "Consultar todos los candidatos",
+        "description": "Devuelve una lista de todos los candidatos registrados.",
+        "parameters": [
+          {
+            "name": "full_name",
+            "in": "query",
+            "description": "Filtrar por nombre completo del candidato",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "party",
+            "in": "query",
+            "description": "Filtrar por partido del candidato",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de candidatos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "ID único del candidato"
+                      },
+                      "full_name": {
+                        "type": "string",
+                        "description": "Nombre completo del candidato"
+                      },
+                      "party": {
+                        "type": "string",
+                        "description": "Partido del candidato"
+                      },
+                      "votes": {
+                        "type": "integer",
+                        "description": "Número total de votos recibidos por el candidato"
+                      }
+                    }
+                  }
+                },
+                "example": [
+                  {
+                    "id": 1,
+                    "full_name": "Alejandra Pineda",
+                    "party": "Nacional Politic",
+                    "votes": 10
+                  },
+                  {
+                    "id": 2,
+                    "full_name": "Carlos Lopez",
+                    "party": "Partido Liberal",
+                    "votes": 5
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "candidatos"
+        ],
+        "summary": "Registrar un nuevo candidato",
+        "description": "Permite registrar un nuevo candidato en el sistema.",
+        "requestBody": {
+          "description": "Datos del nuevo candidato.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "full_name": {
+                    "type": "string",
+                    "description": "Nombre completo del candidato"
+                  },
+                  "party": {
+                    "type": "string",
+                    "description": "Partido político del candidato"
+                  },
+                  "votes": {
+                    "type": "integer",
+                    "description": "Número inicial de votos del candidato"
+                  }
+                },
+                "required": [
+                  "full_name",
+                  "party",
+                  "votes"
+                ]
+              },
+              "example": {
+                "full_name": "Alejandra Pineda",
+                "party": "Nacional Politic",
+                "votes": 0
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Candidato registrado exitosamente",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Candidato registrado exitosamente"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error en los datos proporcionados",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error al registrar el candidato"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/candidatos/{id}": {
+      "get": {
+        "tags": [
+          "candidatos"
+        ],
+        "summary": "Consultar un candidato",
+        "description": "Recupera la información de un candidato específico utilizando su ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID del candidato a consultar",
+            "schema": {
+              "type": "integer",
+              "example": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detalles del candidato",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "full_name": {
+                      "type": "string"
+                    },
+                    "party": {
+                      "type": "string"
+                    },
+                    "votes": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "example": {
+                  "id": 100,
+                  "full_name": "Alejandra Pineda",
+                  "party": "Nacional Politic",
+                  "votes": 50
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Candidato no encontrado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Candidato no encontrado"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "candidatos"
+        ],
+        "summary": "Eliminar un candidato",
+        "description": "Elimina un candidato del sistema utilizando su ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID del candidato a eliminar",
+            "schema": {
+              "type": "integer",
+              "example": 4
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Candidato eliminado exitosamente",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Candidato eliminado exitosamente"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Candidato no encontrado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Candidato no encontrado"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno al eliminar el candidato",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error al intentar eliminar el candidato"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/votos": {
+      "get": {
+        "tags": [
+          "votos"
+        ],
+        "summary": "Consultar estadísticas de votación",
+        "description": "Proporciona estadísticas sobre los votos emitidos, los candidatos y el total de votos.",
+        "responses": {
+          "200": {
+            "description": "Estadísticas de votación",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statistics": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "candidato": {
+                            "type": "string",
+                            "description": "Nombre del candidato"
+                          },
+                          "totalVotos": {
+                            "type": "integer",
+                            "description": "Número total de votos para el candidato"
+                          },
+                          "percentaje": {
+                            "type": "string",
+                            "description": "Porcentaje de votos del candidato con respecto al total"
+                          }
+                        }
+                      }
+                    },
+                    "totalVotantesQueVotaron": {
+                      "type": "integer",
+                      "description": "Total de votantes que han emitido su voto"
+                    },
+                    "totalVotantes": {
+                      "type": "integer",
+                      "description": "Total de votantes registrados"
+                    }
+                  }
+                },
+                "example": {
+                  "statistics": [
+                    {
+                      "candidato": "Alejandra Pineda",
+                      "totalVotos": 120,
+                      "percentaje": "40.00%"
+                    },
+                    {
+                      "candidato": "Carlos Lopez",
+                      "totalVotos": 180,
+                      "percentaje": "60.00%"
+                    }
+                  ],
+                  "totalVotantesQueVotaron": 300,
+                  "totalVotantes": 500
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "votos"
+        ],
+        "summary": "Emitir un voto",
+        "description": "Permite que un votante emita su voto para un candidato específico.",
+        "requestBody": {
+          "description": "Información del voto.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "voter_id": {
+                    "type": "integer",
+                    "description": "ID del votante"
+                  },
+                  "candidate_id": {
+                    "type": "integer",
+                    "description": "ID del candidato"
+                  }
+                },
+                "required": [
+                  "voter_id",
+                  "candidate_id"
+                ]
+              },
+              "example": {
+                "voter_id": 5,
+                "candidate_id": 102
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Voto registrado exitosamente",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Voto registrado exitosamente"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error en los datos del voto",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Error al registrar el voto"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
