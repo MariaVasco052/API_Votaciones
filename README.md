@@ -72,13 +72,6 @@ La API estará disponible en `http://localhost:6500`.
 
 ## Endpoints
 
-### Candidatos
-
-- **GET /candidatos**: Obtener todos los candidatos registrados en el sistema.
-- **POST /candidatos**: Agregar un nuevo candidato al sistema.
-- **GET /candidatos/:id**: Obtener detalles de un candidato específico por su ID.
-- **DELETE /candidatos/:id**: Eliminar un candidato del sistema utilizando su ID.
-
 ### Votantes
 
 - **GET /votantes**: Obtener todos los votantes registrados en el sistema.
@@ -86,11 +79,23 @@ La API estará disponible en `http://localhost:6500`.
 - **GET /votantes/:id**: Obtener detalles de un votante específico por su ID.
 - **DELETE /votantes/:id**: Eliminar un votante del sistema utilizando su ID.
 
+### Candidatos
+
+- **GET /candidatos**: Obtener todos los candidatos registrados en el sistema.
+- **POST /candidatos**: Agregar un nuevo candidato al sistema.
+- **GET /candidatos/:id**: Obtener detalles de un candidato específico por su ID.
+- **DELETE /candidatos/:id**: Eliminar un candidato del sistema utilizando su ID.
+
 ### Votos
 
 - **GET /votos**: Obtener todos los votos registrados.
 - **POST /votos**: Registrar un nuevo voto en el sistema.
-- **GET /votos/estadisticas**: Obtener estadísticas de votación, como el total de votos emitidos y los votos por candidato.
+- **GET /votos/estadisticas**: Obtener estadísticas de votación, como el total de votos emitidos y los votos por candidato.   
+
+
+En el siguiente documento se deja evidencia de que las peticiones funcionan correctamente:   
+ [Evidencias de Uso de la API](https://docs.google.com/document/d/1lY70pm4WNigP_awqo9XOJ1mEO8dVv9gj/edit?usp=sharing&ouid=105827116053933080589&rtpof=true&sd=true)
+
 
 ## Swagger
 
