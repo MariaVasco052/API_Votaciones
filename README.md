@@ -23,8 +23,8 @@ Para instalar y ejecutar este proyecto localmente, sigue estos pasos:
 4.  Configura la conexión a la base de datos en el archivo `conexion.js` ubicado en la carpeta `database`, con las siguientes credenciales:
 
         Host: `localhost`
-        Usuario: `root`
-        Contraseña: `1017214052`
+        Usuario: ` `
+        Contraseña: ` `
         Base de datos: `votaciones`
 
 ## Script para crear la base de datos
